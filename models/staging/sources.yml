@@ -1,0 +1,54 @@
+# models/staging/sources.yml
+version: 2
+
+sources:
+  - name: raw
+    database: ANALYTICS_DEMO
+    schema: RAW
+    tables:
+      - name: orders
+        description: "Raw orders data from GCS"
+        loaded_at_field: _loaded_at  # Assuming you add this during ingestion
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+        columns:
+          - name: order_id
+            description: "Unique order identifier"
+            tests:
+              - not_null
+          - name: order_date
+            description: "Date when order was placed"
+          - name: category
+            description: "Product category"
+            tests:
+              - accepted_values:
+                  values: ['Furniture', 'Office Supplies', 'Technology']
+
+      - name: people
+        description: "Regional managers and their regions"
+        freshness:
+          warn_after: {count: 24, period: hour}
+        columns:
+          - name: regional_manager
+            description: "Name of the regional manager"
+            tests:
+              - not_null
+          - name: region
+            description: "Region name"
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['West', 'East', 'Central', 'South']
+
+      - name: returns
+        description: "Product returns data"
+        freshness:
+          warn_after: {count: 24, period: hour}
+        columns:
+          - name: returned
+            description: "Whether the item was returned (Yes/No)"
+          - name: order_id
+            description: "Order ID that was returned"
+            tests:
+              - not_null

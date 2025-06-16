@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: "Fact table with order information"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: sales
+        description: "Total sales amount"
+        tests:
+          - not_null
+      - name: profit
+        description: "Profit amount"
+        tests:
+          - not_null
+
+  - name: fact_returns
+    description: "Fact table combining orders and returns"
+    columns:
+      - name: return_count
+        description: "Number of items returned"
+        tests:
+          - not_null
