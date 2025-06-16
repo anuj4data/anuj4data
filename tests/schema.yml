@@ -2,4 +2,4 @@ version: 2
 data_tests:
   - name: sales_amount
     description: >
-      Ensure each order has a valid sales amount
+      Ensure each order has a valid sales amount!
