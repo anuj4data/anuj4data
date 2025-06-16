@@ -1,0 +1,33 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Cleaned and typed orders data"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - not_null
+          - unique
+      - name: order_date
+        description: "Date when order was placed"
+        tests:
+          - not_null
+      - name: category
+        description: "Product category"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Furniture', 'Office Supplies', 'Technology']
+
+  - name: stg_returns
+    description: "Aggregated returns data by order"
+    columns:
+      - name: order_id
+        description: "Order ID that was returned"
+        tests:
+          - not_null
+      - name: return_count
+        description: "Number of items returned in this order"
+        tests:
+          - not_null
